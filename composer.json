@@ -1,5 +1,5 @@
 {
-  "name": "Ming/Bundles/AliyunOSSBundle",
+  "name": "Ming/AliyunOSSBundle",
   "type": "symfony-bundle",
   "description": "Symfony Aliyun OSSBundle",
   "keywords": [
