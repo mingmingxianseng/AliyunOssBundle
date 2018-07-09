@@ -1,0 +1,8 @@
+<?php
+return [
+    'access_key'        => 'xxxxx',
+    'access_key_secret' => 'xxxxx',
+    'budget'            => 'xxxx',
+    'end_point'         => 'xxx.aliyuncs.com',
+    'domain'            => 'xxx.com'
+];

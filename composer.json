@@ -1,0 +1,37 @@
+{
+  "name": "Ming/Bundles/AliyunOSSBundle",
+  "type": "symfony-bundle",
+  "description": "Symfony Aliyun OSSBundle",
+  "keywords": [
+    "OSS",
+    "Aliyun"
+  ],
+  "license": "MIT",
+  "version": "",
+  "authors": [
+    {
+      "name": "Chen Ming Ming",
+      "email": "mingming0929@139.com"
+    }
+  ],
+  "require": {
+    "php": "^7.2",
+    "symfony/framework-bundle": "~4.1",
+    "symfony/dependency-injection": "~4.1",
+    "aliyuncs/oss-sdk-php": "^2.3"
+  },
+  "require-dev": {
+    "symfony/yaml": "~4.0",
+    "phpunit/phpunit": "^6.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ming\\Bundles\\AliyunOSSBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Test\\": "tests/"
+    }
+  }
+}
