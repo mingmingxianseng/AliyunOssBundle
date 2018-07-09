@@ -4,3 +4,4 @@
 /tests/Client/config.php
 vendor
 phpunit.xml
+.DS_Store
