@@ -23,7 +23,7 @@ class Md5SplitClient extends AbstractClient
      *
      * @return string
      */
-    protected function parseObjectPath(string $dir, UploadedFile $file, ?array $options = null): string
+    public function buildObjectPath(string $dir, UploadedFile $file, ?array $options = null): string
     {
         if (substr($dir, -1) !== '/') {
             $dir .= '/';

@@ -11,7 +11,7 @@ namespace Ming\Bundles\AliyunOSSBundle\Client;
 use OSS\OssClient;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-abstract class AbstractClient
+abstract class AbstractClient implements ClientInterface
 {
     // 文件名称
     const OPT_FILE_NAME = 'opt_file_name';
@@ -42,26 +42,12 @@ abstract class AbstractClient
      */
     public function upload(string $dir, UploadedFile $file, ?array $options = null): Image
     {
-        $objectPath = $this->parseObjectPath($dir, $file, $options);
+        $objectPath = $this->buildObjectPath($dir, $file, $options);
 
         $this->ossClient->uploadFile($this->budget, $objectPath, $file->getRealPath(), $options);
 
         return new Image($this->buildUrl($objectPath), $file);
     }
-
-    /**
-     * parseObjectPath
-     *
-     * @author chenmingming
-     *
-     * @param string       $dir
-     * @param UploadedFile $file
-     * @param array|null   $options
-     *
-     * @return string
-     */
-    abstract protected function parseObjectPath(string $dir, UploadedFile $file, ?array $options = null): string;
-
     /**
      * buildUrl
      *
@@ -71,7 +57,7 @@ abstract class AbstractClient
      *
      * @return string
      */
-    protected function buildUrl(string $objectPath): string
+    public function buildUrl(string $objectPath): string
     {
         return $this->scheme . '://' . $this->domain . '/' . $objectPath;
     }

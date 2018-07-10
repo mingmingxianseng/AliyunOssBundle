@@ -8,6 +8,7 @@
 
 namespace Ming\Bundles\AliyunOSSBundle\DependencyInjection;
 
+use Ming\Bundles\AliyunOSSBundle\Client\ClientInterface;
 use OSS\OssClient;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -29,7 +30,9 @@ class AliyunOSSExtension extends Extension
 
     /**
      * loadClient
+     *
      * @author chenmingming
+     *
      * @param array            $clients
      * @param ContainerBuilder $container
      */
@@ -42,7 +45,6 @@ class AliyunOSSExtension extends Extension
                 ->setPublic(false)
                 ->addArgument($config['access_key_secret'])
                 ->addArgument($config['end_point']);
-
             $container->setDefinition('aliyun.oss.connection.' . $key, $ossDefinition);
 
             $definition = new Definition($config['class']);
@@ -51,7 +53,12 @@ class AliyunOSSExtension extends Extension
                 ->addArgument($config['budget'])
                 ->addArgument($config['domain'])
                 ->addArgument($config['scheme']);
-            $container->setDefinition('aliyun.oss.client.' . $key, $definition);
+            $serviceId = 'aliyun.oss.client.' . $key;
+            $container->setDefinition($serviceId, $definition);
+            $container->setAlias('oss.' . $key, $serviceId)->setPublic(true);
+            $container->hasAlias(ClientInterface::class)
+            || $container->setAlias(ClientInterface::class, $serviceId)->setPublic(false);
+
         }
     }
 

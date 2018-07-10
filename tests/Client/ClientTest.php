@@ -28,13 +28,13 @@ class ClientTest extends TestCase
         $filePath = __DIR__ . '/test.jpeg';
         $file     = new UploadedFile($filePath, 'test.jpeg', 'jpeg');
 
-        $client     = new TestMd5SplitClient(new OssClient(11, 1, '11'), '11', 'baidu.com');
-        $objectPath = $client->getObjectPath($dir, $file);
+        $client     = new Md5SplitClient(new OssClient(11, 1, '11'), '11', 'baidu.com');
+        $objectPath = $client->buildObjectPath($dir, $file);
 
         $expected = 'test/fc/a8/fca81d1c5615209e3d1a96fc96936f6d.jpg';
         $this->assertSame($expected, $objectPath);
 
-        $this->assertSame('https://baidu.com/' . $expected, $client->getUrl($objectPath));
+        $this->assertSame('https://baidu.com/' . $expected, $client->buildUrl($objectPath));
     }
 
     /**
@@ -49,13 +49,13 @@ class ClientTest extends TestCase
         $filePath = __DIR__ . '/test.jpeg';
         $file     = new UploadedFile($filePath, 'test.jpeg', 'jpeg');
 
-        $client     = new TestTimeSplitClient(new OssClient(11, 1, '11'), '11', 'baidu.com');
-        $objectPath = $client->getObjectPath($dir, $file, [$client::OPT_FILE_NAME => 'test']);
+        $client     = new TimeSplitClient(new OssClient(11, 1, '11'), '11', 'baidu.com');
+        $objectPath = $client->buildObjectPath($dir, $file, [$client::OPT_FILE_NAME => 'test']);
 
         $expected = 'test/' . date('Ymd') . '/' . date('Hi') . '/test.jpg';
         $this->assertSame($expected, $objectPath);
 
-        $this->assertSame('https://baidu.com/' . $expected, $client->getUrl($objectPath));
+        $this->assertSame('https://baidu.com/' . $expected, $client->buildUrl($objectPath));
     }
 
     /**
@@ -80,31 +80,5 @@ class ClientTest extends TestCase
         $this->assertSame(
             'https://' . $config['domain'] . '/test/fc/a8/fca81d1c5615209e3d1a96fc96936f6d.jpg', $image->getUrl()
         );
-    }
-}
-
-class TestMd5SplitClient extends Md5SplitClient
-{
-    public function getObjectPath($dir, UploadedFile $file, ?array $options = null)
-    {
-        return $this->parseObjectPath($dir, $file, $options);
-    }
-
-    public function getUrl($objectPath)
-    {
-        return $this->buildUrl($objectPath);
-    }
-}
-
-class TestTimeSplitClient extends TimeSplitClient
-{
-    public function getObjectPath($dir, UploadedFile $file, ?array $options = null)
-    {
-        return $this->parseObjectPath($dir, $file, $options);
-    }
-
-    public function getUrl($objectPath)
-    {
-        return $this->buildUrl($objectPath);
     }
 }
